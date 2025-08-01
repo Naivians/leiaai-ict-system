@@ -27,17 +27,21 @@ $(window).on("resize", () => {
 let menu = $(".menu");
 let closeBtn = $("#closeBtn");
 let iconArray = $(".menu-icon");
+let menu_item = $(".menu-item");
 let textArray = $(".menu-text");
 let logo_container = $(".logo-container");
 let main = $(".main");
 let navbar = $(".fixed-top");
-let caret = $("#forms-caret");
+let caret = $(".forms-caret");
 let submenu = $(".submenu");
 
+menu_item.on("click", function () {
+    $(this).find(".forms-caret").toggleClass("rotate-180");
+});
 
 closeBtn.on("click", () => {
     collapseSidebar();
-    $('.back-btn').toggleClass('rotate-sidebar-btn')
+    $(".back-btn").toggleClass("rotate-sidebar-btn");
 });
 
 iconArray.each(function (index, icon) {
@@ -51,7 +55,6 @@ function collapseSidebar() {
         $(icon).toggleClass("menu-icons-big");
     });
 
-    caret.toggleClass("d-none");
     submenu.toggleClass("d-none");
 
     menu.toggleClass("menu-collapse");

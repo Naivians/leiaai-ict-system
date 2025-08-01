@@ -20,9 +20,19 @@
                 style="width: 30px; height: 30px; object-fit: cover; cursor:pointer;" data-bs-toggle="dropdown"
                 aria-expanded="false">
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+
+                <li>
+                    <a class="dropdown-item" href="{{route('profile.edit')}}">Profile</a>
+                </li>
+
+                <li>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item text-decoration-none">
+                            {{ __('Log Out') }}
+                        </button>
+                    </form>
+                </li>
             </ul>
         </div>
     </div>
