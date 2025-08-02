@@ -56,11 +56,11 @@
     </div>
 
     <div class="collapse ms-2" id="sim" style="min-width: 150px;">
-        <a href="#" class="text-decoration-none text-dark d-block px-3 py-2 submenu ms-3">
+        <a href="{{route('sim.simulator')}}" class="text-decoration-none text-dark d-block px-3 py-2 submenu ms-3">
             <i class="fa-solid fa-plane"></i>
             Manage Sim
         </a>
-        <a href="#" class="text-decoration-none text-dark d-block px-3 py-2 submenu ms-3">
+        <a href="{{route('sim.form')}}" class="text-decoration-none text-dark d-block px-3 py-2 submenu ms-3">
             <i class="fa-solid fa-plane"></i>
             Log Maintenance
         </a>

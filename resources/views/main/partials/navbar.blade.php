@@ -1,4 +1,4 @@
-<div class="nav-bar-container shadow-sm rounded p-3 d-flex align-items-center justify-content-between fixed-top z-3">
+<div class="nav-bar-container bg-white rounded p-3 d-flex align-items-center justify-content-between fixed-top z-3">
     <div class="d-flex align-items-center gap-4">
         <i class="fa-solid fa-circle-chevron-right back-btn " data-bs-toggle="tooltip" id="closeBtn"
             data-bs-title="Toggle Sidebar"></i>

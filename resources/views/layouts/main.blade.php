@@ -17,10 +17,14 @@
     <link href="https://cdn.lineicons.com/5.0/lineicons.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="https://cdn.lineicons.com/5.0/lineicons.css" rel="stylesheet" />
+    <link href="https://cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 </head>
 
 <body class="bg-light">
+    @include('main.partials.modal')
+
     <header>
         @include('main.partials.navbar')
     </header>
@@ -29,8 +33,8 @@
         @include('main.partials.sidebar')
     </aside>
     <div style="margin-top: 70px;"></div>
-    <main class="main bg-white px-3 rounded shadow-sm">
-        <h3>{{$content_title ?? "HOME"}}</h3>
+    <main class="main bg-white p-3 rounded shadow-sm">
+        <h3 class="mb-3">{{ $content_title ?? 'HOME' }}</h3>
         @yield('main-content')
     </main>
 
@@ -50,14 +54,33 @@
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://unpkg.com/quill@1.3.7/dist/quill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert.js') }}"></script>
 
+    @yield('custom_scripts')
+
     <script>
+        let quill;
+
+        const editorEl = document.querySelector("#editor");
+        if (editorEl) {
+            quill = new Quill(editorEl, {
+                modules: {
+                    toolbar: "#toolbar",
+                },
+                theme: "snow",
+            });
+        }
+
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     </script>
+
+
 </body>
 
 </html>

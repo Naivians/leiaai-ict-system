@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 class SimulatorController extends Controller
 {
     function index(){
-        return view('main.sim_form');
+        return view('main.simulator.index');
+    }
+    function forms(){
+        return view('main.simulator.form');
     }
 }

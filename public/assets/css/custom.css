@@ -158,3 +158,12 @@
     transform: rotate(180deg);
 }
 
+.maintenance_container{
+    height: 520px;
+}
+.maintenance_content {
+    width: 100%;
+    height: 350px;
+    overflow-x: auto; /* show scrollbar only when needed */
+}
+

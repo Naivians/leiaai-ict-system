@@ -16,7 +16,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/dashboard', [HomeController::class, 'index'])->name('home.index');
-    Route::prefix('Sim')->name('sim.')->group(function () {
+
+    Route::prefix('simulator')->name('sim.')->group(function () {
+        Route::get('/', [SimulatorController::class, 'index'])->name('simulator');
         Route::get('/form', [SimulatorController::class, 'forms'])->name('form');
     });
 });
