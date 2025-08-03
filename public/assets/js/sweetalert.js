@@ -31,3 +31,19 @@ function deleteMessage(msg = "", callbacks) {
         }
     });
 }
+
+function pre_loader(msg = "Redi") {
+    Swal.fire({
+        title: "Loading...",
+        html: `
+    <div class="d-flex justify-content-center">
+      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div class="mt-3">Please wait</div>
+  `,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+    });
+}

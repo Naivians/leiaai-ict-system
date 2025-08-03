@@ -44,8 +44,17 @@
             <select id="position" name="position" required
                 class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
                 <option value="" selected disabled>-- Select Position --</option>
-                <option value="Student">Student</option>
-                <option value="Flight Instructor">Flight Instructor</option>
+
+                <optgroup label="For Tickets">
+                    <option value="dev">Dev</option>
+                    <option value="ict_admin">ICT Admin</option>
+                    <option value="ict_staff">ICT Staff</option>
+                </optgroup>
+
+                <optgroup label="For Simulator">
+                    <option value="guest">Guest</option>
+                    <option value="technician">Technician</option>
+                </optgroup>
             </select>
 
             <x-input-error :messages="$errors->get('position')" class="mt-2" />

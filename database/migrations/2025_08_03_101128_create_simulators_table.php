@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('simulators', function (Blueprint $table) {
             $table->id();
+            $table->string('c_name');
+            $table->string('t_name')->nullable();
+            $table->text('issue_text');
+            $table->text('solution_text')->nullable();
+            $table->timestamp('date_occur')->useCurrent();
+            $table->timestamp('date_fixed')->nullable();
+            $table->string('sim_type');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

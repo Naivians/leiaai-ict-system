@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Simulator extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'c_name',
+        't_name',
+        'issue_text',
+        'solution_texts',
+        'date_occur',
+        'date_fixed',
+        'sim_type',
+        'status',
+    ];
+
+
 }

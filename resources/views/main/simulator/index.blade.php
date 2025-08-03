@@ -12,9 +12,6 @@
             </div>
         </div>
 
-
-
-
         <div class="col-md-1">
             <select name="sort_by_sim" id="sort_by_sim" class="form-select">
                 <option value="" selected disabled>--sort by sim--</option>
@@ -23,7 +20,7 @@
             </select>
         </div>
 
-        <span class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#filter_modal" ><i
+        <span class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#filter_modal"><i
                 class="fa-solid fa-filter"></i> Filter</span>
 
         <a href="#" class="btn btn-info">
@@ -40,176 +37,96 @@
     </div>
 
     </div>
-    <div class="col-md-12 mb-4 shadow-sm border">
-        <section class="p-2">
-            <div class="d-flex align-items-center gap-2">
-                <div class="col-md-6 border rounded shadow-sm p-3">
-                    <div class="border rounded shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
-                        <div>
-                            <div class="col-md-12">
-                                <span class="text-secondary">Date Happened:
-                                    <span class="fw-bold badge text-bg-warning">August 3, 2025 09:09:00 PM</span>
-                                </span>
-                            </div>
-                            <div class="col-md-12">
-                                <span class="text-secondary">
-                                    Complainant Name:
-                                    <span class="fw-bold badge text-bg-warning">John Doe</span>
-                                </span>
-                            </div>
-                        </div>
-                        <span class="badge text-bg-warning me-3">Complaint</span>
-                    </div>
-                    <div class="maintenance_content">
-                        <span class="text-muted">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur maiores nostrum accusamus
-                            itaque laborum ad molestiae omnis vel fugiat dolor deserunt beatae soluta enim delectus iure
-                            maxime, officia quaerat sapiente voluptate libero voluptatum eius ex veritatis possimus.
-                            Suscipit accusantium officiis sunt minima nesciunt ipsam quam, dolore nemo laudantium nam ut
-                            architecto quibusdam iure aliquid repudiandae veniam est. Sequi rem amet officiis voluptatibus,
-                            inventore corporis dicta ad ut quos suscipit aut sapiente, earum quidem atque facere veritatis
-                            recusandae minima sunt? Dolor officiis accusantium odit minus provident ea, fugit ipsum
-                            necessitatibus cupiditate? Iure id nisi in reiciendis ad illo assumenda voluptatum nobis cum
-                            beatae, ab unde dignissimos maiores sed labore nemo nesciunt fugit soluta eveniet eius omnis
-                            magnam provident perspiciatis explicabo! Harum, unde? Consequuntur eveniet ipsa reprehenderit
-                            tempora quis expedita
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-6 border rounded shadow-sm p-3">
-                    <div class="border rounded shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
-                        <div>
-                            <div class="col-md-12">
-                                <span class="text-secondary"> Date Fixed:
-                                    <span class="fw-bold badge text-bg-primary">August 3, 2025 09:09:00 PM</span>
-                                </span>
-                            </div>
-                            <div class="col-md-12">
-                                <span class="text-secondary">
-                                    Technician:
-                                    <span class="fw-bold badge text-bg-primary">John Doe</span>
-                                </span>
-                            </div>
-                        </div>
-                        <span class="badge text-bg-primary me-3">Corrective Action</span>
-                    </div>
-                    <div class="maintenance_content">
-                        <span class="text-muted">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur maiores nostrum accusamus
-                            itaque laborum ad molestiae omnis vel fugiat dolor deserunt beatae soluta enim delectus iure
-                            maxime, officia quaerat sapiente voluptate libero voluptatum eius ex veritatis possimus.
-                            Suscipit accusantium officiis sunt minima nesciunt ipsam quam, dolore nemo laudantium nam ut
-                            architecto quibusdam iure aliquid repudiandae veniam est. Sequi rem amet officiis voluptatibus,
-                            inventore corporis dicta ad ut quos suscipit aut sapiente, earum quidem atque facere veritatis
-                            recusandae minima sunt? Dolor officiis accusantium odit minus provident ea, fugit ipsum
-                            necessitatibus cupiditate? Iure id nisi in reiciendis ad illo assumenda voluptatum nobis cum
-                            beatae, ab unde dignissimos maiores sed labore nemo nesciunt fugit soluta eveniet eius omnis
-                            magnam provident
-                        </span>
-                    </div>
+    <div id="default_container">
 
+        @if ($datas->isEmpty())
+            <div class="card text-center shadow-sm border-0 my-4">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">
+                        <i class="fa-solid fa-circle-check text-success me-2"></i>
+                        No incident data available
+                    </h5>
+                    <p class="card-text text-secondary">
+                        RED BIRD and PFC systems are currently operating within normal parameters.
+                    </p>
                 </div>
             </div>
-            <div class=" mb-1 mt-2">
-                <a href="#" class="btn btn-outline-warning">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Edit
-                </a>
-                <a href="#" class="btn btn-outline-danger">
-                    <i class="fa-solid fa-trash"></i>
-                    Delete
-                </a>
-                <a href="#" class="btn btn-outline-info">
-                    <i class="fa-solid fa-print"></i>
-                    Print
-                </a>
-            </div>
-        </section>
-    </div>
-    <div class="col-md-12 mb-4 shadow-sm border">
-        <section class="p-2">
-            <div class="d-flex align-items-center gap-2">
-                <div class="col-md-6 border rounded shadow-sm p-3">
-                    <div class="border rounded shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
-                        <div>
-                            <div class="col-md-12">
-                                <span class="text-secondary">Date Happened:
-                                    <span class="fw-bold badge text-bg-warning">August 3, 2025 09:09:00 PM</span>
-                                </span>
+        @else
+            @foreach ($datas as $data)
+                @php
+                    $date_happend = new DateTime($data->date_occur);
+                @endphp
+                <div class="col-md-12 mb-4 shadow-sm border">
+                    <section class="p-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="col-md-6 border rounded shadow-sm p-3">
+                                <div
+                                    class="border rounded shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">Date Happened:
+                                                <span
+                                                    class="fw-bold badge text-bg-warning">{{ $date_happend->format('M j, Y h:i:s A') }}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">
+                                                Complainant Name:
+                                                <span class="fw-bold badge text-bg-warning"> {{ $data->c_name }} </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="badge text-bg-warning me-3">Complaint</span>
+                                </div>
+                                <div class="maintenance_content text-muted">
+                                    {!! $data->issue_text !!}
+                                </div>
                             </div>
-                            <div class="col-md-12">
-                                <span class="text-secondary">
-                                    Complainant Name:
-                                    <span class="fw-bold badge text-bg-warning">John Doe</span>
-                                </span>
-                            </div>
-                        </div>
-                        <span class="badge text-bg-warning me-3">Complaint</span>
-                    </div>
-                    <div class="maintenance_content">
-                        <span class="text-muted">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur maiores nostrum accusamus
-                            itaque laborum ad molestiae omnis vel fugiat dolor deserunt beatae soluta enim delectus iure
-                            maxime, officia quaerat sapiente voluptate libero voluptatum eius ex veritatis possimus.
-                            Suscipit accusantium officiis sunt minima nesciunt ipsam quam, dolore nemo laudantium nam ut
-                            architecto quibusdam iure aliquid repudiandae veniam est. Sequi rem amet officiis voluptatibus,
-                            inventore corporis dicta ad ut quos suscipit aut sapiente, earum quidem atque facere veritatis
-                            recusandae minima sunt? Dolor officiis accusantium odit minus provident ea, fugit ipsum
-                            necessitatibus cupiditate? Iure id nisi in reiciendis ad illo assumenda voluptatum nobis cum
-                            beatae, ab unde dignissimos maiores sed labore nemo nesciunt fugit soluta eveniet eius omnis
-                            magnam provident perspiciatis explicabo! Harum, unde? Consequuntur eveniet ipsa reprehenderit
-                            tempora quis expedita
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-6 border rounded shadow-sm p-3">
-                    <div class="border rounded shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
-                        <div>
-                            <div class="col-md-12">
-                                <span class="text-secondary"> Date Fixed:
-                                    <span class="fw-bold badge text-bg-primary">August 3, 2025 09:09:00 PM</span>
-                                </span>
-                            </div>
-                            <div class="col-md-12">
-                                <span class="text-secondary">
-                                    Technician:
-                                    <span class="fw-bold badge text-bg-primary">John Doe</span>
-                                </span>
-                            </div>
-                        </div>
-                        <span class="badge text-bg-primary me-3">Corrective Action</span>
-                    </div>
-                    <div class="maintenance_content">
-                        <span class="text-muted">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur maiores nostrum accusamus
-                            itaque laborum ad molestiae omnis vel fugiat dolor deserunt beatae soluta enim delectus iure
-                            maxime, officia quaerat sapiente voluptate libero voluptatum eius ex veritatis possimus.
-                            Suscipit accusantium officiis sunt minima nesciunt ipsam quam, dolore nemo laudantium nam ut
-                            architecto quibusdam iure aliquid repudiandae veniam est. Sequi rem amet officiis voluptatibus,
-                            inventore corporis dicta ad ut quos suscipit aut sapiente, earum quidem atque facere veritatis
-                            recusandae minima sunt? Dolor officiis accusantium odit minus provident ea, fugit ipsum
-                            necessitatibus cupiditate? Iure id nisi in reiciendis ad illo assumenda voluptatum nobis cum
-                            beatae, ab unde dignissimos maiores sed labore nemo nesciunt fugit soluta eveniet eius omnis
-                            magnam provident
-                        </span>
-                    </div>
+                            <div class="col-md-6 border rounded shadow-sm p-3">
+                                <div
+                                    class="border rounded shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary"> Date Fixed:
+                                                <span
+                                                    class="fw-bold badge text-bg-primary">{{ $data->date_fixed == '' ? '' : new DateTime($data->date_fixed) }}</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">
+                                                Technician:
+                                                <span class="fw-bold badge text-bg-primary">{{ $data->t_name }}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="badge text-bg-primary me-3">Corrective Action</span>
+                                </div>
+                                <div class="maintenance_content text-muted">
+                                    {!! $data->solution_text !!}
+                                </div>
 
+                            </div>
+                        </div>
+                        <div class=" mb-1 mt-2">
+                            <a href="#" class="btn btn-outline-warning">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                Edit
+                            </a>
+                            <a href="#" class="btn btn-outline-danger">
+                                <i class="fa-solid fa-trash"></i>
+                                Delete
+                            </a>
+                            <a href="#" class="btn btn-outline-info">
+                                <i class="fa-solid fa-print"></i>
+                                Print
+                            </a>
+                        </div>
+                    </section>
                 </div>
-            </div>
-            <div class=" mb-1 mt-2">
-                <a href="#" class="btn btn-outline-warning">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Edit
-                </a>
-                <a href="#" class="btn btn-outline-danger">
-                    <i class="fa-solid fa-trash"></i>
-                    Delete
-                </a>
-                <a href="#" class="btn btn-outline-info">
-                    <i class="fa-solid fa-print"></i>
-                    Print
-                </a>
-            </div>
-        </section>
+            @endforeach
+        @endif
+
     </div>
+
+    <div id="sim_container"></div>
 @endsection

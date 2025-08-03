@@ -5,7 +5,6 @@
 
 @section('main-content')
     <div class="shadow-sm border rounded p-2">
-
         <form id="sim_form">
             <div class="mb-3">
                 <div id="toolbar" class="w-100">
@@ -20,42 +19,40 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <label for="fi_name" class="form-label text-muted">Flight Instructor</label>
-                    <input type="search" list="fis" id="fi_name" name="fi_name" class="form-control"
-                        placeholder="Search you name here" />
-                    <datalist id="fis">
-                        <option value="John Doe">
-                        <option value="Jane Smith">
-                        <option value="Alice Johnson">
-                        <option value="Bob Williams">
-                        <option value="Charlie Brown">
-                        <option value="Diana Miller">
-                        <option value="Ethan Davis">
-                        <option value="Fiona Garcia">
-                        <option value="George Clark">
-                        <option value="Hannah Lewis">
-                    </datalist>
-                </div>
-
-                <div class="col-md-6">
-                    <label for="sim" class="form-label text-muted">Simulator</label>
-                    <select name="sim" id="sim" class="form-select">
-                        <option value="" disabled selected>---Select Sim---</option>
-                        <option value="PFC">PFC</option>
-                        <option value="RB">Red Bird</option>
+                    <label for="c_name" class="form-label text-muted">Flight Instructor</label> <br>
+                    <select id="c_name" name="c_name" class="w-100 form-select">
+                        <option value="" disabled selected>--select your name--</option>
+                        <optgroup label="Flight Instructor">
+                            <option value="JK">John Keller</option>
+                            <option value="MS">Maya Spencer</option>
+                            <option value="TR">Tyler Reeves</option>
+                            <option value="LC">Lena Carter</option>
+                            <option value="DP">Derek Prince</option>
+                            <option value="AV">Ava Vincent</option>
+                            <option value="BS">Brandon Steele</option>
+                            <option value="KH">Kylie Harper</option>
+                            <option value="NR">Noah Rhodes</option>
+                            <option value="EM">Ella Monroe</option>
+                        </optgroup>
                     </select>
                 </div>
 
-                <div class="col-md-2 mt-5">
+                <div class="col-md-6">
+                    <label for="sim_type" class="form-label text-muted">Simulator</label> <br>
+                    <select id="sim_type" name="sim_type" class="w-100 form-select">
+                        <option value="" disabled selected>--select your name--</option>
+                        <optgroup label="Simulator">
+                            <option value="RED BIRD">Red Bird</option>
+                            <option value="PFC">PFC</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="col-md-2 mt-4">
                     <a href="#" class="btn btn-outline-danger">Back</a>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </form>
-
     </div>
-@endsection
-
-@section('custom_scripts')
-    <script></script>
 @endsection

@@ -18,8 +18,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('home.index');
 
     Route::prefix('simulator')->name('sim.')->group(function () {
-        Route::get('/', [SimulatorController::class, 'index'])->name('simulator');
+        Route::get('/home', [SimulatorController::class, 'index'])->name('index');
         Route::get('/form', [SimulatorController::class, 'forms'])->name('form');
+
+        Route::post('/form', [SimulatorController::class, 'store'])->name('store');
     });
 });
 
