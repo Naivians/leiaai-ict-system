@@ -16,12 +16,12 @@
             <select name="sort_by_sim" id="sort_by_sim" class="form-select">
                 <option value="" selected disabled>--sort by sim--</option>
                 <option value="PFC">PFC</option>
-                <option value="Red Bird">Red Bird</option>
+                <option value="RED BIRD">Red Bird</option>
             </select>
         </div>
 
         <div class="col-md-2">
-            <select name="sort_by_sim" id="sort_by_sim" class="form-select">
+            <select name="sort_by_status" id="sort_by_status" class="form-select">
                 <option value="" selected disabled>--sort by status--</option>
                 <option value="0">Unresolve</option>
                 <option value="1">Completed</option>
@@ -29,13 +29,15 @@
         </div>
 
         <span class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#filter_modal"><i
-                class="fa-solid fa-filter"></i> Filter</span>
+                class="fa-solid fa-filter"></i> Advance Filtering</span>
 
         {{-- <a href="#" class="btn btn-info">
             <i class="fa-solid fa-print"></i>
             Print
         </a> --}}
     </div>
+
+
 
     </div>
     <div id="default_container">
@@ -63,9 +65,8 @@
                 <div class="col-md-12 mb-4 shadow-sm border">
                     <section class="p-2">
                         <div class="text-center m-0 mb-1 border border-1 p-2">
-                            <span class
-                            ="fw-bold badge {{ $statusColor }}">status</span> <br>
-                            <h5 class="m-0">{{ $statusName }}</h5>
+                            <span class ="fw-bold badge {{ $statusColor }}">Status: {{ $statusName }}</span>
+                            <span class ="fw-bold badge text-bg-info">Sim-type: {{ $data->sim_type }}</span>
                         </div>
                         <div class="d-flex align-items-center">
                             <div class="col-md-6 border  shadow-sm p-3">
@@ -133,5 +134,6 @@
 
     </div>
 
-    <div id="sim_container"></div>
+    <div id="simulator_container"></div>
+
 @endsection

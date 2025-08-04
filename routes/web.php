@@ -21,8 +21,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [SimulatorController::class, 'index'])->name('index');
         Route::get('/form', [SimulatorController::class, 'forms'])->name('form');
         Route::get('/form/show/{report_id}', [SimulatorController::class, 'showForm'])->name('show');
-        Route::post('/form/update', [SimulatorController::class, 'updateForm'])->name('update');
+        Route::get('/sim-sort', [SimulatorController::class, 'sortBySimulator'])->name('sim_sort');
+        Route::get('/sim-status-sort', [SimulatorController::class, 'sortByStatus'])->name('sim_status_sort');
+        Route::get('/advance-filtering', [SimulatorController::class, 'advanceFiltering'])->name('sim_advance_sort');
 
+        Route::post('/form/update', [SimulatorController::class, 'updateForm'])->name('update');
         Route::post('/form', [SimulatorController::class, 'store'])->name('store');
     });
 });

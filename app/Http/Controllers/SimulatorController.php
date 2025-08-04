@@ -7,7 +7,10 @@ use App\Models\Simulator;
 use DateTime;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Carbon;
 
 class SimulatorController extends Controller
 {
@@ -174,6 +177,308 @@ class SimulatorController extends Controller
         if ($report_id) {
             return $this->json_respone("Report Id do not exist", false);
         }
+    }
+
+    public function sortBySimulator(Request $request)
+    {
+        $datas = Simulator::all()->where('sim_type', $request->sim_sort);
+        $sim_contents = '';
+        $restriction = '';
+
+
+        foreach ($datas as $data) {
+            $redirects = route('sim.show', ['report_id' => Crypt::encrypt($data->id)]);
+
+            if (Gate::allows('technician')) {
+                $restriction = '
+                <div class=" mb-1 mt-2">
+                                <a href="' . $redirects . '"
+                                    class="btn btn-outline-primary">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Edit
+                                </a>
+                            </div>
+                ';
+            }
+
+            $date_happend = new DateTime($data->date_occur);
+            $statusName = $data->status == 0 ? 'Unresolve' : 'Completed';
+            $statusClass = $data->status == 0 ? 'alert-warning' : 'alert-success';
+            $statusColor = $data->status == 0 ? 'text-bg-danger' : 'text-bg-success';
+            $t_name = $data->t_name ?? "Not assigned";
+            $date_fixed = $data->date_fixed ? \Carbon\Carbon::parse($data->date_fixed)->format('M j Y h:i:s A') : 'Tentative';
+
+            $sim_contents .= '
+            <div class="col-md-12 mb-4 shadow-sm border">
+                    <section class="p-2">
+                        <div class="text-center m-0 mb-1 border border-1 p-2">
+                            <span class ="fw-bold badge ' . $statusColor . '">Status: ' . $statusName . '</span>
+                            <span class ="fw-bold badge text-bg-info">Sim-type: ' . $data->sim_type . '</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="col-md-6 border  shadow-sm p-3">
+                                <div class="border  shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">Time of Incident:
+                                                <span
+                                                    class="fw-bold badge text-bg-warning">' . $date_happend->format("M j, Y h:i:s A") . '</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">
+                                                Reported By:
+                                                <span class="fw-bold badge text-bg-warning"> ' . $data->c_name . ' </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="badge text-bg-warning me-3">Discrepancy</span>
+                                </div>
+                                <div class="maintenance_content text-muted">
+                                    ' . $data->issue_text . '
+                                </div>
+                            </div>
+                            <div class="col-md-6 border  shadow-sm p-3">
+                                <div
+                                    class="border rounded shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">Date Fixed:
+                                                <span
+                                                    class="fw-bold badge text-bg-primary">' . $date_fixed . '</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">
+                                                Attending Technician:
+                                                <span class="fw-bold badge text-bg-primary">
+                                                    ' . $t_name . '
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="badge text-bg-primary me-3">Corrective Actions</span>
+                                </div>
+                                <div class="maintenance_content text-muted">
+                                    ' . $data->solution_text . '
+                                </div>
+                            </div>
+                        </div>
+                        ' . $restriction . '
+                    </section>
+                </div>
+
+            ';
+        }
+
+        return $this->json_respone($sim_contents, true);
+    }
+
+    public function sortByStatus(Request $request)
+    {
+        $datas = Simulator::all()->where('status', $request->status);
+        $sim_contents = '';
+        $restriction = '';
+
+
+        foreach ($datas as $data) {
+            $redirects = route('sim.show', ['report_id' => Crypt::encrypt($data->id)]);
+
+            if (Gate::allows('technician')) {
+                $restriction = '
+                <div class=" mb-1 mt-2">
+                                <a href="' . $redirects . '"
+                                    class="btn btn-outline-primary">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Edit
+                                </a>
+                            </div>
+                ';
+            }
+
+            $date_happend = new DateTime($data->date_occur);
+            $statusName = $data->status == 0 ? 'Unresolve' : 'Completed';
+            $statusClass = $data->status == 0 ? 'alert-warning' : 'alert-success';
+            $statusColor = $data->status == 0 ? 'text-bg-danger' : 'text-bg-success';
+            $t_name = $data->t_name ?? "Not assigned";
+            $date_fixed = $data->date_fixed ? \Carbon\Carbon::parse($data->date_fixed)->format('M j Y h:i:s A') : 'Tentative';
+
+            $sim_contents .= '
+            <div class="col-md-12 mb-4 shadow-sm border">
+                    <section class="p-2">
+                        <div class="text-center m-0 mb-1 border border-1 p-2">
+                            <span class ="fw-bold badge ' . $statusColor . '">Status: ' . $statusName . '</span>
+                            <span class ="fw-bold badge text-bg-info">Sim-type: ' . $data->sim_type . '</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="col-md-6 border  shadow-sm p-3">
+                                <div class="border  shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">Time of Incident:
+                                                <span
+                                                    class="fw-bold badge text-bg-warning">' . $date_happend->format("M j, Y h:i:s A") . '</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">
+                                                Reported By:
+                                                <span class="fw-bold badge text-bg-warning"> ' . $data->c_name . ' </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="badge text-bg-warning me-3">Discrepancy</span>
+                                </div>
+                                <div class="maintenance_content text-muted">
+                                    ' . $data->issue_text . '
+                                </div>
+                            </div>
+                            <div class="col-md-6 border  shadow-sm p-3">
+                                <div
+                                    class="border rounded shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">Date Fixed:
+                                                <span
+                                                    class="fw-bold badge text-bg-primary">' . $date_fixed . '</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">
+                                                Attending Technician:
+                                                <span class="fw-bold badge text-bg-primary">
+                                                    ' . $t_name . '
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="badge text-bg-primary me-3">Corrective Actions</span>
+                                </div>
+                                <div class="maintenance_content text-muted">
+                                    ' . $data->solution_text . '
+                                </div>
+                            </div>
+                        </div>
+                        ' . $restriction . '
+                    </section>
+                </div>
+
+            ';
+        }
+
+        return $this->json_respone($sim_contents, true);
+    }
+    public function advanceFiltering(Request $request)
+    {
+
+        return $this->json_respone($request->all(), true);
+
+        $from_date = $request->from_date ? Carbon::parse($request->from_date)->startOfDay()->toDateTimeString() : null;
+        $to_date = $request->to_date ? Carbon::parse($request->to_date)->endOfDay()->toDateTimeString() : null;
+        $simulator_type = $request->simulator_type ?? null;
+        $sim_status = $request->sim_status ?? null;
+
+        $datas = DB::table('simulators')
+            ->when($simulator_type, function ($query, $simulator_type) {
+                return $query->where('sim_type', $simulator_type);
+            })
+            ->when($sim_status, function ($query, $sim_status) {
+                return $query->where('status', $sim_status);
+            })
+            ->when($from_date && $to_date, function ($query) use ($from_date, $to_date) {
+                return $query->whereBetween('date_occur', [$from_date, $to_date]);
+            })
+            ->get();
+
+        $sim_contents = '';
+        $restriction = '';
+
+        foreach ($datas as $data) {
+            $redirects = route('sim.show', ['report_id' => Crypt::encrypt($data->id)]);
+
+            if (Gate::allows('technician')) {
+                $restriction = '
+                <div class=" mb-1 mt-2">
+                                <a href="' . $redirects . '"
+                                    class="btn btn-outline-primary">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Edit
+                                </a>
+                            </div>
+                ';
+            }
+
+            $date_happend = new DateTime($data->date_occur);
+            $statusName = $data->status == 0 ? 'Unresolve' : 'Completed';
+            $statusClass = $data->status == 0 ? 'alert-warning' : 'alert-success';
+            $statusColor = $data->status == 0 ? 'text-bg-danger' : 'text-bg-success';
+            $t_name = $data->t_name ?? "Not assigned";
+            $date_fixed = $data->date_fixed ? \Carbon\Carbon::parse($data->date_fixed)->format('M j Y h:i:s A') : 'Tentative';
+
+            $sim_contents .= '
+            <div class="col-md-12 mb-4 shadow-sm border">
+                    <section class="p-2">
+                        <div class="text-center m-0 mb-1 border border-1 p-2">
+                            <span class ="fw-bold badge ' . $statusColor . '">Status: ' . $statusName . '</span>
+                            <span class ="fw-bold badge text-bg-info">Sim-type: ' . $data->sim_type . '</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <div class="col-md-6 border  shadow-sm p-3">
+                                <div class="border  shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">Time of Incident:
+                                                <span
+                                                    class="fw-bold badge text-bg-warning">' . $date_happend->format("M j, Y h:i:s A") . '</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">
+                                                Reported By:
+                                                <span class="fw-bold badge text-bg-warning"> ' . $data->c_name . ' </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="badge text-bg-warning me-3">Discrepancy</span>
+                                </div>
+                                <div class="maintenance_content text-muted">
+                                    ' . $data->issue_text . '
+                                </div>
+                            </div>
+                            <div class="col-md-6 border  shadow-sm p-3">
+                                <div
+                                    class="border rounded shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">Date Fixed:
+                                                <span
+                                                    class="fw-bold badge text-bg-primary">' . $date_fixed . '</span>
+                                            </span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <span class="text-secondary">
+                                                Attending Technician:
+                                                <span class="fw-bold badge text-bg-primary">
+                                                    ' . $t_name . '
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="badge text-bg-primary me-3">Corrective Actions</span>
+                                </div>
+                                <div class="maintenance_content text-muted">
+                                    ' . $data->solution_text . '
+                                </div>
+                            </div>
+                        </div>
+                        ' . $restriction . '
+                    </section>
+                </div>
+
+            ';
+        }
+
+        return $this->json_respone($sim_contents, true);
     }
 
 

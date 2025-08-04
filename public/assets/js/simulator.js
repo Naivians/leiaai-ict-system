@@ -1,3 +1,112 @@
+let default_container = $("#default_container");
+let sort_by_status = $("#sort_by_status");
+let sort_by_sim = $("#sort_by_sim");
+let filter_modal = $("#filter_modal");
+
+$("#advanceFiltering").on("submit", function (e) {
+    default_container.addClass('d-none')
+    e.preventDefault();
+    const form = this;
+    const formData = new FormData(form);
+
+    // for (const [key, value] of formData.entries()) {
+    //     console.log(`${key}: ${value}`);
+    // }
+
+    // return;
+
+    $.ajax({
+        url: "/simulator/advance-filtering",
+        method: "GET",
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: (res) => {
+            if (!res.success) {
+                error_message(res.message);
+            }
+
+            console.log(res.message);
+            return
+
+
+            data = res.message;
+
+            if (data.length == 0) {
+                $("#simulator_container").html(
+                    `
+                        <div class="border rounded shadow-sm text-center p-3">
+                        <h4 class="m-0 text-muted">No data found</h4>
+                    </div>
+                    `
+                );
+                filter_modal.modal('hide');
+                return;
+            }
+            $("#simulator_container").empty().append(res.message);
+            filter_modal.modal('hide');
+        },
+    });
+});
+
+$("#sort_by_sim").on("change", function () {
+    sort_by_status.val("");
+    default_container.addClass("d-none");
+    $.ajax({
+        url: "/simulator/sim-sort",
+        method: "GET",
+        data: { sim_sort: $(this).val() },
+        success: (res) => {
+            if (!res.success) {
+                error_message(res.message);
+            }
+
+            data = res.message;
+
+            if (data.length == 0) {
+                $("#simulator_container").html(
+                    `
+                        <div class="border rounded shadow-sm text-center p-3">
+                        <h4 class="m-0 text-muted">No data found</h4>
+                    </div>
+                    `
+                );
+                return;
+            }
+            $("#simulator_container").empty().append(res.message);
+        },
+    });
+});
+$("#sort_by_status").on("change", function () {
+    sort_by_sim.val("");
+    default_container.addClass("d-none");
+    $.ajax({
+        url: "/simulator/sim-status-sort",
+        method: "GET",
+        data: { status: $(this).val() },
+        success: (res) => {
+            if (!res.success) {
+                error_message(res.message);
+            }
+
+            data = res.message;
+
+            if (data.length == 0) {
+                $("#simulator_container").html(
+                    `
+                        <div class="border rounded shadow-sm text-center p-3">
+                        <h4 class="m-0 text-muted">No data found</h4>
+                    </div>
+                    `
+                );
+
+                return;
+            }
+            $("#simulator_container").empty().append(res.message);
+        },
+    });
+});
+
 $("#sim_form").on("submit", function (e) {
     e.preventDefault();
     const issue_text = quill.root.innerHTML;
