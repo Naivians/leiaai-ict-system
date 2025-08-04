@@ -13,7 +13,7 @@ class Simulator extends Model
         'c_name',
         't_name',
         'issue_text',
-        'solution_texts',
+        'solution_text',
         'date_occur',
         'date_fixed',
         'sim_type',

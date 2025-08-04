@@ -1,8 +1,7 @@
 <div class="menu shadow-sm rounded">
-    <div class="logo-container">
-        <img src="https://placehold.co/600x400" style="width: 60px; height: 60px; object-fit: cover; cursor:pointer;"
-            class="rounded-circle">
-        Company Name
+    <div class="logo-container p-4">
+        <img src="{{ asset('assets/img/leiaai_logo.png') }}" >
+        LEIAAI ICT
     </div>
 
     <div class="menu-item border-1" data-bs-toggle="tooltip" data-bs-title="Dashboard">

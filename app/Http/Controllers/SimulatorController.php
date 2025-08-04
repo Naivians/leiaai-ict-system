@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Simulator;
 use DateTime;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class SimulatorController extends Controller
 {
@@ -102,10 +104,7 @@ class SimulatorController extends Controller
         ]);
 
         if ($validation->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => $validation->errors()->first()
-            ]);
+            $this->json_respone($validation->errors()->first(), false);
         }
 
         $sim = Simulator::create([
@@ -115,15 +114,74 @@ class SimulatorController extends Controller
         ]);
 
         if (!$sim) {
-            return response()->json([
-                'success' => false,
-                'message' => "Failed to record simulator error"
-            ]);
+            return $this->json_respone("Failed to record simulator error", false);
         }
 
+        return $this->json_respone("Issue submitted successfully", true);
+    }
+
+    public function showForm($report_id)
+    {
+
+        try {
+            $decryptedId = Crypt::decrypt($report_id);
+        } catch (DecryptException $e) {
+            return view('main.simulator.index');
+        }
+
+        $sim_data = Simulator::findOrfail($decryptedId);
+
+        if (!$sim_data) {
+            return view('main.simulator.index');
+        }
+
+        return view('main.simulator.view_edit', compact('sim_data'));
+    }
+
+    public function updateForm(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'solution_text' => 'required|string',
+        ]);
+
+        if ($validation->fails()) {
+            return  $this->json_respone($validation->errors()->first(), false);
+        }
+
+        $sim = Simulator::find($request->report_id);
+
+        if (!$sim) {
+            return $this->json_respone("Report Id do not exist", false);
+        }
+
+        $res = $sim->update([
+            't_name' => "Capt. Adecer",
+            'solution_text' => $request->solution_text,
+            'date_fixed' => now(),
+            'status' => 1,
+        ]);
+
+        if (!$res) {
+            return $this->json_respone("Failed to update report", false);
+        }
+
+        return $this->json_respone("Submitted Successsfully", true);
+    }
+
+    public function deleteForm($report_id)
+    {
+        $report_id = Simulator::findOrFail($report_id);
+        if ($report_id) {
+            return $this->json_respone("Report Id do not exist", false);
+        }
+    }
+
+
+    function json_respone($message, $status)
+    {
         return response()->json([
-            'success' => true,
-            'message' => "Issue submitted successfully",
+            'success' => $status ?? false,
+            'message' => $message ?? 'no data pass'
         ]);
     }
 }
