@@ -63,8 +63,7 @@
 .menu .logo-container {
     opacity: 1;
     transition: opacity 0.4s, max-width 0.4s;
-    overflow: hidden;
-    white-space: nowrap;
+    /* overflow: hidden; */
     height: 100px;
     display: flex;
     align-items: center;
@@ -72,10 +71,14 @@
     font-size: larger;
     font-weight: bolder;
     border-bottom: 2px solid #f5f5f5;
-    display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.menu .logo-container img{
+    width: 100%;
+    height: auto;
 }
 
 .menu .menu-icon {
@@ -127,8 +130,10 @@
 .logo-container.logo-collapse {
     opacity: 0;
     max-width: 0;
+    transition: left 0.6s cubic-bezier(0.5, 0, 0.2, 1) !important;
     pointer-events: none;
     height: 70px;
+
 }
 
 .main {
@@ -166,5 +171,3 @@
     height: 350px;
     overflow-x: auto; /* show scrollbar only when needed */
 }
-
-
