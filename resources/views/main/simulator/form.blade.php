@@ -18,7 +18,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="c_name" class="form-label text-muted">Flight Instructor</label> <br>
                     <select id="c_name" name="c_name" class="w-100 form-select">
                         <option value="" disabled selected>--select your name--</option>
@@ -52,7 +52,7 @@
                     </select>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <label for="sim_type" class="form-label text-muted">Simulator</label> <br>
                     <select id="sim_type" name="sim_type" class="w-100 form-select">
                         <option value="" disabled selected>--simulator type--</option>
@@ -63,10 +63,23 @@
                     </select>
                 </div>
 
+                @can('developer')
+                    <div class="col-md-3">
+                        <label for="date_occur" class="form-label text-muted">Date Occur</label>
+                        <input type="date" name="date_occur" id="date_occur" class="form-control">
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="date_fixed" class="form-label text-muted">Date Fixed</label>
+                        <input type="date" name="date_fixed" id="date_fixed" class="form-control">
+                    </div>
+                @endcan
+
                 <div class="col-md-12 mt-4">
                     <a href="{{ route('sim.index') }}" class="btn btn-outline-danger">Back</a>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
+
             </div>
         </form>
     </div>

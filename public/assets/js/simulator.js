@@ -124,6 +124,12 @@ $("#sim_form").on("submit", function (e) {
         return;
     }
 
+    // for (const [key, value] of formData.entries()) {
+    //     console.log(`${key}: ${value}`);
+    // }
+
+    // return;
+
     $(form).find("button[type='submit']").prop("disabled", true);
     $.ajax({
         url: "/simulator/form",
@@ -156,11 +162,7 @@ $("#update_sim_form").on("submit", function (e) {
 
     formData.append("solution_text", solution_text);
 
-    // for (const [key, value] of formData.entries()) {
-    //     console.log(`${key}: ${value}`);
-    // }
 
-    // return;
 
     if (isEmpty) {
         error_message("Input fields cannot be empty");

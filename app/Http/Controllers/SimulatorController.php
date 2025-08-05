@@ -107,9 +107,19 @@ class SimulatorController extends Controller
             'issue_text' => 'required|string',
         ]);
 
+
+
         if ($validation->fails()) {
             $this->json_respone($validation->errors()->first(), false);
         }
+
+        $sim_data = [
+            'c_name' => $request->c_name,
+            'issue_text' => $request->issue_text,
+            'sim_type' => $request->sim_type,
+        ];
+
+
 
         $sim = Simulator::create([
             'c_name' => $request->c_name,
@@ -549,7 +559,7 @@ class SimulatorController extends Controller
 
         $sim = Simulator::find($report_id);
 
-        if(!$sim){
+        if (!$sim) {
             return redirect()->route('sim.index');
         }
 

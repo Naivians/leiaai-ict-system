@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('simulator', function (User $user) {
-            return in_array($user->position, ['guest', 'technician']);
+            return in_array($user->position, ['guest', 'technician', 'dev']);
         });
 
         Gate::define('guest', function (User $user) {
