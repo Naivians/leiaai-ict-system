@@ -1,17 +1,29 @@
 @php
-    $content_title = "Dashboard"
+    $content_title = 'Dashboard Overview';
 @endphp
 @extends('layouts.main')
 
 @section('main-content')
-    <div class="dropdown">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown button
-        </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-        </ul>
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <a href="{{ route('sim.index') }}" class="text-decoration-none">
+                <div class="card text-bg-danger">
+                    <div class="card-body">
+                        <h5 class="card-title">Errors Logged Today</h5>
+                        <p class="card-text fs-4">{{ $simulator_error['today_error'] }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="{{ route('sim.index') }}" class="text-decoration-none">
+                <div class="card text-bg-danger">
+                    <div class="card-body">
+                        <h5 class="card-title">Overall Total Error</h5>
+                        <p class="card-text fs-4">{{ $simulator_error['today_error'] }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 @endsection

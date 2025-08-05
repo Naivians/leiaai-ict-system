@@ -3,12 +3,12 @@ let sort_by_status = $("#sort_by_status");
 let sort_by_sim = $("#sort_by_sim");
 let filter_modal = $("#filter_modal");
 
-$('#refresh').on('click', () => {
+$("#refresh").on("click", () => {
     window.location.reload();
-})
+});
 
 $("#advanceFiltering").on("submit", function (e) {
-    default_container.addClass('d-none')
+    default_container.addClass("d-none");
     e.preventDefault();
     const form = this;
     const formData = new FormData(form);
@@ -33,11 +33,11 @@ $("#advanceFiltering").on("submit", function (e) {
                     </div>
                     `
                 );
-                filter_modal.modal('hide');
+                filter_modal.modal("hide");
                 return;
             }
             $("#simulator_container").empty().append(res.message);
-            filter_modal.modal('hide');
+            filter_modal.modal("hide");
         },
     });
 });
@@ -109,13 +109,22 @@ $("#sim_form").on("submit", function (e) {
 
     formData.append("issue_text", issue_text);
 
-    $(form).find("button[type='submit']").prop("disabled", true);
-
     if (isEmpty) {
         error_message("Input fields cannot be empty");
         return;
     }
 
+    if (formData.get("c_name") == null) {
+        error_message("Please select flight instructor name");
+        return;
+    }
+
+    if (formData.get("sim_type") == null) {
+        error_message("Please select sim type");
+        return;
+    }
+
+    $(form).find("button[type='submit']").prop("disabled", true);
     $.ajax({
         url: "/simulator/form",
         method: "POST",

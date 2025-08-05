@@ -47,6 +47,7 @@
                             <option value="Ron Nario">Ron Nario</option>
                             <option value="Vey Hubert Sastrodemedjo">Vey Hubert Sastrodemedjo</option>
                             <option value="Ynez Bagui">Ynez Bagui</option>
+                            <option value="Mico Espiritu">Mico Espiritu</option>
                         </optgroup>
                     </select>
                 </div>
@@ -54,7 +55,7 @@
                 <div class="col-md-4">
                     <label for="sim_type" class="form-label text-muted">Simulator</label> <br>
                     <select id="sim_type" name="sim_type" class="w-100 form-select">
-                        <option value="" disabled selected>--select your name--</option>
+                        <option value="" disabled selected>--simulator type--</option>
                         <optgroup label="Simulator">
                             <option value="RED BIRD">Red Bird</option>
                             <option value="PFC">PFC</option>

@@ -5,13 +5,14 @@
     </div>
 
     <div class="menu-item border-1" data-bs-toggle="tooltip" data-bs-title="Dashboard">
-        <a href="#" class="text-decoration-none text-dark d-flex align-items-center w-100 pe-3">
+        <a href="{{ route('home.index') }}" class="text-decoration-none text-dark d-flex align-items-center w-100 pe-3">
             <div class="menu-icon me-2">
                 <i class="fa-solid fa-house"></i>
             </div>
             <div class="menu-text">Dashboard</div>
         </a>
     </div>
+
     @can('tickets')
         <div class="menu-item border-1" data-bs-toggle="tooltip" data-bs-title="Category">
             <a href="#" class="text-decoration-none text-dark d-flex align-items-center w-100 pe-3">
