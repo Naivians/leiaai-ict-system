@@ -23,7 +23,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/form/show/{report_id}', [SimulatorController::class, 'showForm'])->name('show');
         Route::get('/sim-sort', [SimulatorController::class, 'sortBySimulator'])->name('sim_sort');
         Route::get('/sim-status-sort', [SimulatorController::class, 'sortByStatus'])->name('sim_status_sort');
-        Route::get('/advance-filtering', [SimulatorController::class, 'advanceFiltering'])->name('sim_advance_sort');
+        Route::get('/generate-pdf/{report_id}', [SimulatorController::class, 'generatePDFReport'])->name('generate-pdf');
+        Route::post('/advance-filtering', [SimulatorController::class, 'advanceFiltering'])->name('sim_advance_sort');
 
         Route::post('/form/update', [SimulatorController::class, 'updateForm'])->name('update');
         Route::post('/form', [SimulatorController::class, 'store'])->name('store');

@@ -3,21 +3,19 @@ let sort_by_status = $("#sort_by_status");
 let sort_by_sim = $("#sort_by_sim");
 let filter_modal = $("#filter_modal");
 
+$('#refresh').on('click', () => {
+    window.location.reload();
+})
+
 $("#advanceFiltering").on("submit", function (e) {
     default_container.addClass('d-none')
     e.preventDefault();
     const form = this;
     const formData = new FormData(form);
 
-    // for (const [key, value] of formData.entries()) {
-    //     console.log(`${key}: ${value}`);
-    // }
-
-    // return;
-
     $.ajax({
         url: "/simulator/advance-filtering",
-        method: "GET",
+        method: "POST",
         processData: false,
         contentType: false,
         data: formData,
@@ -25,11 +23,6 @@ $("#advanceFiltering").on("submit", function (e) {
             if (!res.success) {
                 error_message(res.message);
             }
-
-            console.log(res.message);
-            return
-
-
             data = res.message;
 
             if (data.length == 0) {

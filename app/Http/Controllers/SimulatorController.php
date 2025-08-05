@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Carbon;
+use setasign\Fpdi\Tcpdf\Fpdi;
 
 class SimulatorController extends Controller
 {
@@ -188,6 +189,7 @@ class SimulatorController extends Controller
 
         foreach ($datas as $data) {
             $redirects = route('sim.show', ['report_id' => Crypt::encrypt($data->id)]);
+            $generateReport = route('sim.generate-pdf', ['report_id' => $data->id]);
 
             if (Gate::allows('technician')) {
                 $restriction = '
@@ -197,7 +199,12 @@ class SimulatorController extends Controller
                                     <i class="fa-solid fa-pen-to-square"></i>
                                     Edit
                                 </a>
+                                <a href="' . $generateReport . '" target="_blank" class="btn btn-outline-info">
+                                                <i class="fa-solid fa-print"></i>
+                                                Print
+                                            </a>
                             </div>
+
                 ';
             }
 
@@ -283,6 +290,7 @@ class SimulatorController extends Controller
 
         foreach ($datas as $data) {
             $redirects = route('sim.show', ['report_id' => Crypt::encrypt($data->id)]);
+            $generateReport = route('sim.generate-pdf', ['report_id' => $data->id]);
 
             if (Gate::allows('technician')) {
                 $restriction = '
@@ -292,7 +300,12 @@ class SimulatorController extends Controller
                                     <i class="fa-solid fa-pen-to-square"></i>
                                     Edit
                                 </a>
+                                <a href="' . $generateReport . '" target="_blank" class="btn btn-outline-info">
+                                                <i class="fa-solid fa-print"></i>
+                                                Print
+                                            </a>
                             </div>
+
                 ';
             }
 
@@ -370,24 +383,25 @@ class SimulatorController extends Controller
     }
     public function advanceFiltering(Request $request)
     {
-
-        return $this->json_respone($request->all(), true);
-
         $from_date = $request->from_date ? Carbon::parse($request->from_date)->startOfDay()->toDateTimeString() : null;
         $to_date = $request->to_date ? Carbon::parse($request->to_date)->endOfDay()->toDateTimeString() : null;
-        $simulator_type = $request->simulator_type ?? null;
-        $sim_status = $request->sim_status ?? null;
+        $simulator_type = $request->simulator_type;
+        $sim_status = $request->sim_status;
 
         $datas = DB::table('simulators')
             ->when($simulator_type, function ($query, $simulator_type) {
                 return $query->where('sim_type', $simulator_type);
             })
-            ->when($sim_status, function ($query, $sim_status) {
+            ->when(!is_null($sim_status), function ($query) use ($sim_status) {
                 return $query->where('status', $sim_status);
             })
-            ->when($from_date && $to_date, function ($query) use ($from_date, $to_date) {
-                return $query->whereBetween('date_occur', [$from_date, $to_date]);
+            ->when($from_date, function ($query) use ($from_date) {
+                return $query->where('date_occur', '>=', $from_date);
             })
+            ->when($to_date, function ($query) use ($to_date) {
+                return $query->where('date_occur', '<=', $to_date);
+            })
+            ->orderBy('date_occur', 'DESC')
             ->get();
 
         $sim_contents = '';
@@ -395,6 +409,7 @@ class SimulatorController extends Controller
 
         foreach ($datas as $data) {
             $redirects = route('sim.show', ['report_id' => Crypt::encrypt($data->id)]);
+            $generateReport = route('sim.generate-pdf', ['report_id' => $data->id]);
 
             if (Gate::allows('technician')) {
                 $restriction = '
@@ -404,7 +419,12 @@ class SimulatorController extends Controller
                                     <i class="fa-solid fa-pen-to-square"></i>
                                     Edit
                                 </a>
+                                <a href="' . $generateReport . '" target="_blank" class="btn btn-outline-info">
+                                                <i class="fa-solid fa-print"></i>
+                                                Print
+                                            </a>
                             </div>
+
                 ';
             }
 
@@ -488,5 +508,82 @@ class SimulatorController extends Controller
             'success' => $status ?? false,
             'message' => $message ?? 'no data pass'
         ]);
+    }
+
+    public function generatePdfFromTemplate(string $templatePath, array $data): string
+    {
+        $pdf = new Fpdi();
+
+        $pdf->AddPage();
+        $pdf->setSourceFile($templatePath);
+        $tplId = $pdf->importPage(1);
+        $pdf->useTemplate($tplId);
+
+        $pdf->SetFont('Helvetica', '', 12);
+        $pdf->SetTextColor(0, 0, 0);
+
+        // Write basic text at fixed positions
+        $pdf->SetXY(10, 70);
+        // Build all content as a single HTML string
+        $html = '
+    <span><strong>Date Occur:</strong> ' . ($data['date_ocur'] ?? '') . '</span><br>
+<span><strong>Reported by:</strong> ' . ($data['name'] ?? '') . '</span><br>
+<span><strong>Sim Type:</strong> ' . ($data['sim_type'] ?? '') . '</span><br>
+<span><strong>Status:</strong> ' . ($data['status'] ?? '') . '</span><br><br>
+<span style="text-align:center; color: red; font-weight: bolder;"><strong>Discrepancy</strong></span>
+    ';
+
+        if (!empty($data['html'])) {
+            $html .= $data['html'];
+        }
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->SetTitle('Generate Report | PDF');
+
+        return $pdf->Output('Simulator Error');
+    }
+
+    public function generatePDFReport($report_id)
+    {
+        $templatePath = public_path('assets/pdfs/sample.pdf');
+
+        $sim = Simulator::find($report_id);
+
+        if(!$sim){
+            return redirect()->route('sim.index');
+        }
+
+        $status = [
+            0 => 'Unresolve',
+            1 => 'Resolve',
+        ];
+
+        $sim_status = $status[$sim->status];
+
+        $date_fixed = $sim->date_fixed ? \Carbon\Carbon::parse($sim->date_occur)->format('M j Y h:i:s A') : 'Tentative';
+
+        $dummyData = [
+            'name'   =>  $sim->c_name,
+            'date_ocur'   => $sim->date_occur ? \Carbon\Carbon::parse($sim->date_occur)->format('M j Y h:i:s A') : 'Tentative',
+            'sim_type' =>  $sim->sim_type,
+            'status' => $sim_status,
+
+            'html' => '
+' . $sim->issue_text . '
+
+<hr>
+<h2></h2>
+<span><strong>Date Fixed:</strong> ' .  $date_fixed . '</span><br>
+<span><strong>Attending Technician:</strong> ' . ($sim->t_name ?? 'not assign') . '</span><br>
+<span><strong>Status:</strong> ' . ($sim_status ?? '') . '</span><br><br>
+<span style="text-align:center; color: blue; font-weight: bolder;"><strong>Corrective Actions</strong></span>
+' . $sim->solution_text . ''
+        ];
+
+        $pdf = $this->generatePdfFromTemplate($templatePath, $dummyData);
+
+        return response($pdf)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="sim_error.pdf"');
     }
 }

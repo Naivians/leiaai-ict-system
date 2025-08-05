@@ -5,13 +5,6 @@
 
 @section('main-content')
     <div class="d-flex align-items-center gap-2 mb-3">
-        <div class="col-md-4">
-            <div class="input-group">
-                <button class="btn btn-outline-secondary" disabled><i class="fa-solid fa-magnifying-glass"></i></button>
-                <input type="search" name="search" id="search" class="form-control" placeholder="Search Anything">
-            </div>
-        </div>
-
         <div class="col-md-2">
             <select name="sort_by_sim" id="sort_by_sim" class="form-select">
                 <option value="" selected disabled>--sort by sim--</option>
@@ -30,11 +23,7 @@
 
         <span class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#filter_modal"><i
                 class="fa-solid fa-filter"></i> Advance Filtering</span>
-
-        {{-- <a href="#" class="btn btn-info">
-            <i class="fa-solid fa-print"></i>
-            Print
-        </a> --}}
+        <button class="btn btn-outline-danger" id="refresh"><i class="fa-solid fa-arrows-rotate"></i> Refresh</button>
     </div>
 
 
@@ -102,6 +91,8 @@
                                                     class="fw-bold badge text-bg-primary">{{ $data->date_fixed ? \Carbon\Carbon::parse($data->date_fixed)->format('M j Y h:i:s A') : 'Tentative' }}</span>
                                             </span>
                                         </div>
+
+
                                         <div class="col-md-12">
                                             <span class="text-secondary">
                                                 Attending Technician:
@@ -124,6 +115,11 @@
                                     class="btn btn-outline-primary">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                     Edit
+                                </a>
+                                <a href="{{ route('sim.generate-pdf', ['report_id' => $data->id]) }}" target="_blank"
+                                    class="btn btn-outline-info">
+                                    <i class="fa-solid fa-print"></i>
+                                    Print
                                 </a>
                             </div>
                         @endcan
