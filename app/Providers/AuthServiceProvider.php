@@ -34,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('technician', function (User $user) {
-            return $user->position == 'technician';
+           return in_array($user->position, ['technician', 'dev']);
         });
 
         Gate::define('developer', function (User $user) {

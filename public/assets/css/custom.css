@@ -171,3 +171,7 @@
     height: 350px;
     overflow-x: auto; /* show scrollbar only when needed */
 }
+
+#update_form_container > p {
+    margin: 0;
+}

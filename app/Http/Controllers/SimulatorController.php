@@ -19,78 +19,6 @@ class SimulatorController extends Controller
     {
 
         $datas = Simulator::orderBy('date_occur', 'desc')->get();
-        // $sim_contents = '';
-        // foreach ($datas as $data) {
-        //     $date_happend = new DateTime($data->date_occur);
-        //     $date_fixed = new DateTime($data->date_fixed);
-
-        //     $sim_contents .= '
-        //     <div class="col-md-12 mb-4 shadow-sm border">
-        //         <section class="p-2">
-        //             <div class="d-flex align-items-center gap-2">
-        //                 <div class="col-md-6 border rounded shadow-sm p-3">
-        //                     <div class="border rounded shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
-        //                         <div>
-        //                             <div class="col-md-12">
-        //                                 <span class="text-secondary">Date Happened:
-        //                                     <span class="fw-bold badge text-bg-warning">' . $date_happend->format('M j, Y h:i:s A') . '</span>
-        //                                 </span>
-        //                             </div>
-        //                             <div class="col-md-12">
-        //                                 <span class="text-secondary">
-        //                                     Complainant Name:
-        //                                     <span class="fw-bold badge text-bg-warning">' . $data->c_name . '</span>
-        //                                 </span>
-        //                             </div>
-        //                         </div>
-        //                         <span class="badge text-bg-warning me-3">Complaint</span>
-        //                     </div>
-        //                     <div class="maintenance_content text-muted">
-        //                         ' .  $data->issue_text . '
-        //                     </div>
-        //                 </div>
-        //                 <div class="col-md-6 border rounded shadow-sm p-3">
-        //                     <div class="border rounded shadow-sm p-2 mb-3 d-flex align-items-center justify-content-between">
-        //                         <div>
-        //                             <div class="col-md-12">
-        //                                 <span class="text-secondary"> Date Fixed:
-        //                                     <span class="fw-bold badge text-bg-primary">' . $date_fixed->format('M j, Y h:i:s A') . '</span>
-        //                                 </span>
-        //                             </div>
-        //                             <div class="col-md-12">
-        //                                 <span class="text-secondary">
-        //                                     Technician:
-        //                                     <span class="fw-bold badge text-bg-primary">' . $data->t_name . '</span>
-        //                                 </span>
-        //                             </div>
-        //                         </div>
-        //                         <span class="badge text-bg-primary me-3">Corrective Action</span>
-        //                     </div>
-        //                     <div class="maintenance_content text-muted">
-        //                     ' . $data->solution_text . '
-        //                     </div>
-
-        //                 </div>
-        //             </div>
-        //             <div class=" mb-1 mt-2">
-        //                 <a href="#" class="btn btn-outline-warning">
-        //                     <i class="fa-solid fa-pen-to-square"></i>
-        //                     Edit
-        //                 </a>
-        //                 <a href="#" class="btn btn-outline-danger">
-        //                     <i class="fa-solid fa-trash"></i>
-        //                     Delete
-        //                 </a>
-        //                 <a href="#" class="btn btn-outline-info">
-        //                     <i class="fa-solid fa-print"></i>
-        //                     Print
-        //                 </a>
-        //             </div>
-        //         </section>
-        //     </div>
-        //     ';
-        // }
-
         return view('main.simulator.index', compact('datas'));
     }
 
@@ -101,31 +29,37 @@ class SimulatorController extends Controller
 
     public function store(Request $request)
     {
+
+        $sim_data = [];
+
         $validation = Validator::make($request->all(), [
             'c_name' => 'required|string',
             'sim_type' => 'required|string',
             'issue_text' => 'required|string',
         ]);
 
-
-
         if ($validation->fails()) {
             $this->json_respone($validation->errors()->first(), false);
         }
 
-        $sim_data = [
-            'c_name' => $request->c_name,
-            'issue_text' => $request->issue_text,
-            'sim_type' => $request->sim_type,
-        ];
+        if (Gate::allows('developer')) {
+            $sim_data['date_occur'] = Carbon::parse($request->date_occur);
+            if($request->date_fixed != null){
+                $sim_data['date_fixed'] = Carbon::parse($request->date_fixed);
+            }
+        }
 
+        $sim_data['c_name'] = $request->c_name;
+        $sim_data['issue_text'] = $request->issue_text;
+        $sim_data['sim_type'] = $request->sim_type;
 
+        // $sim_data = [
+        //     'c_name' => $request->c_name,
+        //     'issue_text' => $request->issue_text,
+        //     'sim_type' => $request->sim_type,
+        // ];
 
-        $sim = Simulator::create([
-            'c_name' => $request->c_name,
-            'issue_text' => $request->issue_text,
-            'sim_type' => $request->sim_type,
-        ]);
+        $sim = Simulator::create($sim_data);
 
         if (!$sim) {
             return $this->json_respone("Failed to record simulator error", false);

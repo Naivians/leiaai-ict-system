@@ -4,6 +4,11 @@
 @extends('layouts.main')
 
 @section('main-content')
+    <div class="alert alert-info">
+        <span class="fw-bold">Reminder:</span>
+        Instructors are encouraged to report any discrepancies, provide suggestions, or offer recommendations concerning the
+        simulator. Your professional feedback is essential to maintaining and enhancing simulation quality.
+    </div>
     <div class="shadow-sm border rounded p-2">
         <form id="sim_form">
             <div class="mb-3">
@@ -48,9 +53,11 @@
                             <option value="Vey Hubert Sastrodemedjo">Vey Hubert Sastrodemedjo</option>
                             <option value="Ynez Bagui">Ynez Bagui</option>
                             <option value="Mico Espiritu">Mico Espiritu</option>
+                            <option value="Mitchelle Tuijuanco">Mitchelle Tuijuanco</option>
                         </optgroup>
                     </select>
                 </div>
+
 
                 <div class="col-md-3">
                     <label for="sim_type" class="form-label text-muted">Simulator</label> <br>

@@ -20,7 +20,7 @@
         <span
             class="badge text-bg-warning">{{ \Carbon\Carbon::parse($sim_data->date_occur)->format('M j Y, h:i:s A') }}</span>
     </p>
-    <div class="alert alert-warning">
+    <div class="alert alert-warning" id="update_form_container">
         {!! $sim_data->issue_text !!}
     </div>
     <div class="shadow-sm border rounded p-2">

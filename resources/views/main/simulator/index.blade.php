@@ -109,20 +109,20 @@
                                 </div>
                             </div>
                         </div>
-                        @can('technician')
-                            <div class=" mb-1 mt-2">
-                                <a href="{{ route('sim.show', ['report_id' => Crypt::encrypt($data->id)]) }}"
-                                    class="btn btn-outline-primary">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                    Edit
-                                </a>
+                        <div class=" mb-1 mt-2">
+                            <a href="{{ route('sim.show', ['report_id' => Crypt::encrypt($data->id)]) }}"
+                                class="btn btn-outline-primary">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                Edit
+                            </a>
+                            @can('developer')
                                 <a href="{{ route('sim.generate-pdf', ['report_id' => $data->id]) }}" target="_blank"
                                     class="btn btn-outline-info">
                                     <i class="fa-solid fa-print"></i>
                                     Print
                                 </a>
-                            </div>
-                        @endcan
+                            @endcan
+                        </div>
                     </section>
                 </div>
             @endforeach

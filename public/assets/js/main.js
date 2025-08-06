@@ -1,17 +1,3 @@
-function checkScreenSize() {
-    if (window.innerWidth < 700) {
-        $(".qr_container").addClass("d-none");
-        $("#indeContainer").removeClass("container w-75 mx-auto");
-        $("#indeContainer").addClass("mx-3");
-    } else {
-        $(".qr_container").removeClass("d-none");
-        $("#indeContainer").addClass("container w-75 mx-auto");
-    }
-}
-
-$(document).ready(() => {
-    checkScreenSize();
-});
 
 $("#forms").on("show.bs.collapse", function () {
     $("#forms-caret").addClass("rotate-180");
