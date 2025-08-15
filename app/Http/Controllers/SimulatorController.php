@@ -17,8 +17,7 @@ class SimulatorController extends Controller
 {
     public function index()
     {
-
-        $datas = Simulator::orderBy('date_occur', 'desc')->get();
+        $datas = Simulator::where("status", 0)->orderBy('date_occur', 'desc')->get();
         return view('main.simulator.index', compact('datas'));
     }
 
@@ -44,20 +43,15 @@ class SimulatorController extends Controller
 
         if (Gate::allows('developer')) {
             $sim_data['date_occur'] = Carbon::parse($request->date_occur);
-            if($request->date_fixed != null){
+            if ($request->date_fixed != null) {
                 $sim_data['date_fixed'] = Carbon::parse($request->date_fixed);
+                $sim_data['status'] = 1;
             }
         }
 
         $sim_data['c_name'] = $request->c_name;
         $sim_data['issue_text'] = $request->issue_text;
         $sim_data['sim_type'] = $request->sim_type;
-
-        // $sim_data = [
-        //     'c_name' => $request->c_name,
-        //     'issue_text' => $request->issue_text,
-        //     'sim_type' => $request->sim_type,
-        // ];
 
         $sim = Simulator::create($sim_data);
 
@@ -90,6 +84,7 @@ class SimulatorController extends Controller
     {
         $validation = Validator::make($request->all(), [
             'solution_text' => 'required|string',
+            't_name' => 'required|string',
         ]);
 
         if ($validation->fails()) {
@@ -103,7 +98,7 @@ class SimulatorController extends Controller
         }
 
         $res = $sim->update([
-            't_name' => "Capt. Adecer",
+            't_name' => $request->t_name,
             'solution_text' => $request->solution_text,
             'date_fixed' => now(),
             'status' => 1,
@@ -126,7 +121,9 @@ class SimulatorController extends Controller
 
     public function sortBySimulator(Request $request)
     {
-        $datas = Simulator::all()->where('sim_type', $request->sim_sort);
+        $datas = Simulator::where('sim_type', $request->sim_sort)
+            ->orderBy('date_occur', 'DESC')
+            ->get();
         $sim_contents = '';
         $restriction = '';
 
@@ -153,7 +150,7 @@ class SimulatorController extends Controller
             }
 
             $date_happend = new DateTime($data->date_occur);
-            $statusName = $data->status == 0 ? 'Unresolve' : 'Completed';
+            $statusName = $data->status == 0 ? 'Unresolve' : 'Resolve';
             $statusClass = $data->status == 0 ? 'alert-warning' : 'alert-success';
             $statusColor = $data->status == 0 ? 'text-bg-danger' : 'text-bg-success';
             $t_name = $data->t_name ?? "Not assigned";
@@ -227,7 +224,9 @@ class SimulatorController extends Controller
 
     public function sortByStatus(Request $request)
     {
-        $datas = Simulator::all()->where('status', $request->status);
+        $datas = Simulator::where('status', $request->status)
+            ->orderBy('date_occur', 'DESC')
+            ->get();
         $sim_contents = '';
         $restriction = '';
 
@@ -254,7 +253,7 @@ class SimulatorController extends Controller
             }
 
             $date_happend = new DateTime($data->date_occur);
-            $statusName = $data->status == 0 ? 'Unresolve' : 'Completed';
+            $statusName = $data->status == 0 ? 'Unresolve' : 'Resolve';
             $statusClass = $data->status == 0 ? 'alert-warning' : 'alert-success';
             $statusColor = $data->status == 0 ? 'text-bg-danger' : 'text-bg-success';
             $t_name = $data->t_name ?? "Not assigned";
@@ -373,7 +372,7 @@ class SimulatorController extends Controller
             }
 
             $date_happend = new DateTime($data->date_occur);
-            $statusName = $data->status == 0 ? 'Unresolve' : 'Completed';
+            $statusName = $data->status == 0 ? 'Unresolve' : 'Resolve';
             $statusClass = $data->status == 0 ? 'alert-warning' : 'alert-success';
             $statusColor = $data->status == 0 ? 'text-bg-danger' : 'text-bg-success';
             $t_name = $data->t_name ?? "Not assigned";
@@ -483,8 +482,8 @@ class SimulatorController extends Controller
 
         $pdf->writeHTML($html, true, false, true, false, '');
         $pdf->SetTitle('Generate Report | PDF');
-
-        return $pdf->Output('Simulator Error');
+        $reportedby = "reported_by_" . $data['name'] . "_" . $data['date_ocur'];
+        return $pdf->Output($reportedby . '.pdf'); // Return as string
     }
 
     public function generatePDFReport($report_id)
@@ -528,6 +527,6 @@ class SimulatorController extends Controller
 
         return response($pdf)
             ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'attachment; filename="sim_error.pdf"');
+            ->header('Content-Disposition', 'attachment; filename="sim error.pdf"');
     }
 }

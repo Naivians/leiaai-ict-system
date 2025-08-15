@@ -6,9 +6,6 @@ $("#forms").on("hide.bs.collapse", function () {
     $("#forms-caret").removeClass("rotate-180");
 });
 
-$(window).on("resize", () => {
-    checkScreenSize();
-});
 // sidebar config
 let menu = $(".menu");
 let closeBtn = $("#closeBtn");

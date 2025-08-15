@@ -40,7 +40,7 @@ class HomeController extends Controller
 
         $today_error = Simulator::whereDate('date_occur', Carbon::today())->count();
         $today_resolve = Simulator::where('status', '1')->count();
-        $total_error = Simulator::count();
+        $total_error = Simulator::where('status', 0)->count();
 
         $simulator_error = [
             'today_error' => $today_error,

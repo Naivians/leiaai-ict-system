@@ -17,7 +17,7 @@
             <select name="sort_by_status" id="sort_by_status" class="form-select">
                 <option value="" selected disabled>--sort by status--</option>
                 <option value="0">Unresolve</option>
-                <option value="1">Completed</option>
+                <option value="1">Resolve</option>
             </select>
         </div>
 
@@ -25,7 +25,6 @@
                 class="fa-solid fa-filter"></i> Advance Filtering</span>
         <button class="btn btn-outline-danger" id="refresh"><i class="fa-solid fa-arrows-rotate"></i> Refresh</button>
     </div>
-
 
 
     </div>
@@ -47,7 +46,7 @@
             @foreach ($datas as $data)
                 @php
                     $date_happend = new DateTime($data->date_occur);
-                    $statusName = $data->status == 0 ? 'Unresolve' : 'Completed';
+                    $statusName = $data->status == 0 ? 'Unresolve' : 'Resolve';
                     $statusClass = $data->status == 0 ? 'alert-warning' : 'alert-success';
                     $statusColor = $data->status == 0 ? 'text-bg-danger' : 'text-bg-success';
                 @endphp
@@ -110,11 +109,13 @@
                             </div>
                         </div>
                         <div class=" mb-1 mt-2">
-                            <a href="{{ route('sim.show', ['report_id' => Crypt::encrypt($data->id)]) }}"
-                                class="btn btn-outline-primary">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                                Edit
-                            </a>
+                            @can('technician')
+                                <a href="{{ route('sim.show', ['report_id' => Crypt::encrypt($data->id)]) }}"
+                                    class="btn btn-outline-primary">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Edit
+                                </a>
+                            @endcan
                             @can('developer')
                                 <a href="{{ route('sim.generate-pdf', ['report_id' => $data->id]) }}" target="_blank"
                                     class="btn btn-outline-info">
