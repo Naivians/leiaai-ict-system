@@ -194,31 +194,3 @@ $("#update_sim_form").on("submit", function (e) {
     });
 });
 
-function render_sim_report() {
-    // $.ajax({
-    //     url: "/simulator/home",
-    //     method: "GET",
-    //     success: (res) => {
-    //         console.log(res);
-    //     },
-    // });
-    // $.ajax({
-    //     url: "/simulator/home",
-    //     method: "GET",
-    //     success: (res) => {
-    //         // if (res.success) {
-    //         //     $("#sim_container").empty().append(res.data); // this is OK
-    //         // } else {
-    //         //     $("#sim_container").html(
-    //         //         '<p class="text-danger">Failed to load simulation data.</p>'
-    //         //     );
-    //         // }
-    //         console.log(res.data);
-    //     },
-    //     error: () => {
-    //         $("#sim_container").html(
-    //             '<p class="text-danger">Error loading data from server.</p>'
-    //         );
-    //     },
-    // });
-}

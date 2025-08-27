@@ -18,5 +18,6 @@ class Simulator extends Model
         'date_fixed',
         'sim_type',
         'status',
+        'remarks',
     ];
 }

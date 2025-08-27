@@ -40,9 +40,20 @@
             </div>
 
             <div class="my-3">
+                <label for="status" class="form-label">Status</label>
+                <select name="status" id="status" class="form-select">
+                    <option value="{{ $sim_data->status }}" class="text-primary" selected>
+                        {{ $sim_data->status == 0 ? 'Unresolve' : 'Resolved' }}</option>
+                    <option value="0">Unresolve</option>
+                    <option value="1">Resolve</option>
+                </select>
+            </div>
+
+            <div class="my-3">
                 <label for="t_name" class="form-label">Technician</label>
                 <select name="t_name" id="t_name" class="form-select">
-                    <option value="{{ $sim_data->t_name }}" class="text-primary" selected>{{ $sim_data->t_name }}</option>
+                    <option value="{{ $sim_data->t_name }}"
+                        class="text-primary" selected>{{ $sim_data->t_name ?? '-- not yet assign --' }}</option>
                     <option value="Capt. Adecer">Capt. Adecer</option>
                     <option value="JC & Marvin">JC & Marvin</option>
                 </select>

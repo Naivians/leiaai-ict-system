@@ -82,6 +82,7 @@
         let quill;
 
         const editorEl = document.querySelector("#editor");
+
         if (editorEl) {
             quill = new Quill(editorEl, {
                 modules: {

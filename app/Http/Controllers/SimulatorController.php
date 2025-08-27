@@ -85,7 +85,9 @@ class SimulatorController extends Controller
         $validation = Validator::make($request->all(), [
             'solution_text' => 'required|string',
             't_name' => 'required|string',
+            'status' => 'required|string',
         ]);
+
 
         if ($validation->fails()) {
             return  $this->json_respone($validation->errors()->first(), false);
@@ -101,7 +103,7 @@ class SimulatorController extends Controller
             't_name' => $request->t_name,
             'solution_text' => $request->solution_text,
             'date_fixed' => now(),
-            'status' => 1,
+            'status' => $request->status,
         ]);
 
         if (!$res) {

@@ -16,6 +16,7 @@ class HomeController extends Controller
 
         $chartsData = DB::table('simulators')
             ->selectRaw("DATE_FORMAT(MIN(date_occur), '%M %Y') as month_name, COUNT(*) as total")
+            ->where('status', 0)
             ->groupByRaw("DATE_FORMAT(date_occur, '%Y-%m')")
             ->orderByRaw("MIN(date_occur)")
             ->get();
